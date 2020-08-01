@@ -1,0 +1,9 @@
+node_modules
+.vscode-test/
+*.vsix
+<<<<<<< HEAD
+package-lock.json
+.DS_Store
+=======
+package-lock.json
+>>>>>>> 1b2f2f39c1c9693e2db5a61b2b977215aa0411b8

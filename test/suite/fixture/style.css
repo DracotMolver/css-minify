@@ -1,0 +1,208 @@
+/* GLOBAL SETTINGS
+   ----------------------------- */
+
+/* GLOBAL SETTINGS
+   ============================= */
+
+/* ==[ Global Settings ]== */
+
+/* [[[ Global Settings ]]] */
+
+/*** GLOBAL SETTINGS ***/
+
+/* ===============
+   GLOBAL SETTINGS 
+   =============== */
+
+   #element {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    outline: none;
+    padding: 0px;
+    margin: 2px 0px 0px 0px;
+    margin: 2px 0px;
+    letter-spacing: 0.046em;
+    background-color: #ffffff;
+    color: #495358;
+    font-variant-ligatures: common-ligatures no-discretionary-ligatures no-historical-ligatures;
+    border: 1px solid rgba(73, 83, 88, 0.6);
+    width: 100%;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+      0 3px 1px -2px rgba(0, 0, 0, 0.12), 
+      0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    margin: 72px auto 0;
+    -moz-transition: all 0.65s ease-in;
+    height: calc(100% + 5px);
+    background-image: url(bg-section10.jpg);
+    background-image: url('bg-section10.jpg')
+}
+
+/* GLOBAL SETTINGS
+   ----------------------------- */
+
+/* GLOBAL SETTINGS
+   ============================= */
+
+/* ==[ Global Settings ]== */
+
+/* [[[ Global Settings ]]] */
+
+/*** GLOBAL SETTINGS ***/
+
+/* ===============
+   GLOBAL SETTINGS 
+   =============== */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* CSS DIRECTORY
+	1. =GLOBAL
+	2. =PRIMARY
+	3. =HEADER
+	4. =SIDEBAR
+	5. =FOOTER
+*/
+
+/* HACK DIRECTORY
+	% box model hack
+	$ targets safari
+	& clearfix hack
+	? targets IE 7
+*/
+
+/* COLORS
+	- default body text  #ffffcc
+	- subtitle h2 text   #ff9900
+	- form input borders #cc9933
+	- default p text     #f0f0f0
+	- pre borders        #ffff99
+*/
+
+/* FONTS
+	- default body text  Arial, Helvetica Neue, Helvetica, sans-serif
+	- subtitle h2 text   Garamond, Hoefler Text, Times New Roman, Times, serif
+	- form input text    Cambria, Georgia, Times, Times New Roman, Times, serif
+	- default p text     Copperplate Light, Copperplate Gothic Light, serif
+	- pre and code       Consolas, Lucida Console, Monaco, monospace
+*/
+
+.class {
+    color: #ffffff;
+    background: #000000;
+    border: 1px solid #ff44cc;
+    background-color: #f1f2f2;
+    color: #000;
+}
+
+.class {
+    padding: 2px 0px 3px 0;
+    font-size: 0.9em;
+    font-size: 0em;
+    margin: 0em 0ex 10% 10px;
+    height: 2in;
+    width: 0%;
+    line-height: 100cm;
+    border: 0cm;
+    margin-top: 0pc;
+    margin-bottom: 0ch;
+    margin-left: 0vh;
+    margin-bottom: 0vw;
+    transform: rotation(0deg);
+    background-image: url(../../imag010.jpg);
+}
+
+body:not(.logged-in)    .greeting{}
+
+#firstnam,
+p,
+div p,
+div p,
+div>p,
+div+p,
+p~ul,
+[target=_blank],
+[title~=flower],
+[lang|=en],
+a[href^="https"],
+a[href$=" .pdf  "],
+a[href*="w3schools"],
+a:active,
+p::after,
+p::before,
+input:checked,
+input:disabled,
+p:empty,
+input:enabled,
+p:first-child,
+p::first-letter,
+p::first-line,
+p:first-of-type,
+input:focus,
+a:hover,
+input:in-range,
+input:invalid,
+p:lang(it),
+p:last-child,
+p:last-of-type,
+a:link,
+:not(p),
+p:nth-child(2),
+p:nth-last-child(2),
+p:nth-last-of-type(2),
+p:nth-of-type(2),
+p:only-of-type,
+p:only-child,
+input:optional,
+input:out-of-range,
+input:read-only,
+input:read-write,
+input:required,
+:root,
+::selection,
+#news:target,
+input:valid,
+a:visited {
+    height: 2px;
+    width: 0.0129rem;
+    margin: calc(0px + 100%);
+    font-size: 2px !important;
+    padding: 2px 2px 2px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-image: url("../../../img.jpg");
+    background-image: url('../../../img.jpg');
+    font-size-adjust: none;
+    outline-style: none;
+    list-style-type: none;
+    display: none;
+    border: none;
+    text-decoration: none;
+    clip-path: unset;
+}
+
+@font-face {
+    font-family: 'pxgrotesk-regular';
+    src: url('pxgrotesk-regular.eot');
+    src: url('pxgrotesk-regular.eot?#iefix') format('embedded-opentype'), 
+    url('pxgrotesk-regular.woff2') format('woff2'),
+     url('pxgrotesk-regular.woff') format('woff'),
+      url('pxgrotesk-regular.ttf') format('truetype'),
+       url('pxgrotesk-regular.svg#svgFontName') format('svg');
+}
+
+#aptApp * {
+    box-sizing: content-box;
+}
+
+@import url("//fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900");
+
+@media only screen and (min-width: 375px){}
+@media (max-width: 600px){}
+@media (min-width: 700px) and (orientation: landscape){}
+@media tv and (min-width: 700px) and (orientation: landscape){}
+@media (min-width: 700px), handheld and (orientation: landscape){}
+@media not all and (monochrome){}
+@media not (all and (monochrome)){}
+@media not screen and (color), print and (color){}

@@ -1,12 +1,9 @@
 /**
  * @author Diego Alberto Molina Vera
- * @copyright 2016 - 2020
+ * @copyright 2016 - 2021
  */
 
-const {
-  commands,
-  window
-} = require('vscode');
+const { commands, window } = require('vscode');
 
 const path = require('path');
 const fs = require('fs');
@@ -17,9 +14,7 @@ function activate(context) {
   const minifier = new Minifier();
 
   const disposable = commands.registerCommand('extension.minify', () => {
-    const {
-      activeTextEditor
-    } = window;
+    const { activeTextEditor } = window;
 
     if (activeTextEditor.document.languageId === 'css') {
       const { document } = activeTextEditor;
@@ -43,12 +38,16 @@ function activate(context) {
       // removes single and double quotes
       minifier.cleanQuotes();
 
-      minifier.getMinifiedCSS()
-        .then(modifiedContent => {
+      minifier
+        .getMinifiedCSS()
+        .then((modifiedContent) => {
           fs.writeFile(savePath, modifiedContent, () => {
-            window.showInformationMessage(`A minified file has been created with the name: ${name}`);
+            window.showInformationMessage(
+              `A minified file has been created with the name: ${name}`
+            );
           });
-        }).catch(window.showErrorMessage);
+        })
+        .catch(window.showErrorMessage);
     } else {
       window.showWarningMessage('This extension must be use on a CSS file');
     }
@@ -58,6 +57,5 @@ function activate(context) {
 }
 exports.activate = activate;
 
-function deactivate() {
-}
+function deactivate() {}
 exports.deactivate = deactivate;

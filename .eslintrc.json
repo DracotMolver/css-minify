@@ -14,19 +14,22 @@
     },
     "rules": {
         "no-underscore-dangle": "off",
-        "operator-linebreak": "off",
         "no-const-assign": "warn",
         "no-this-before-super": "warn",
         "no-undef": "warn",
         "no-unreachable": "warn",
         "no-unused-vars": "warn",
-        "constructor-super": "warn",
+        "no-useless-escape": "warn",
+        "no-confusing-arrow": "off",
+        "class-methods-use-this": "off",
         "valid-typeof": "warn",
         "arrow-parens": "off",
+        "constructor-super": "warn",
+        "implicit-arrow-linebreak": "off",
         "indent": "off",
         "comma-dangle": "off",
         "linebreak-style": "off",
-        "no-useless-escape": "warn",
-        "no-confusing-arrow": "off"
+        "operator-linebreak": "off",
+        "function-paren-newline": "off"
     }
 }

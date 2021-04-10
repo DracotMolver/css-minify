@@ -1,37 +1,89 @@
 /**
  * @author Diego Alberto Molina Vera
- * @copyright 2016 - 2020
+ * @copyright 2016 - 2021
  */
 
 const {
+  REGEX_ZERO_FLOAT_PREFIX,
+  REGEX_WHITE_SPACE_FROM,
+  REGEX_WHITE_SPACE_TO,
+  REGEX_ZERO_PREFIX,
+  REGEX_BY_ZERO,
+  REGEX_URL,
+} = require('./helpers/regex');
+
+const {
   hasMediaQuerySelector,
-  hasAllSelector,
+  hasOtherSelectors,
+  hasNotPrefixZero,
   hasPlusSelector,
+  hasCalcFunction,
+  hasAllSelector,
 } = require('./helpers/has');
 
 const {
-  replaceAllSelector,
+  replaceParenthesisFromOtherSelectors,
+  replaceMediaQuerySelector,
   replacePlusSelector,
+  replaceCalcFunction,
+  replaceAllSelector,
   replaceDotSelector,
+  replaceQuotes,
 } = require('./helpers/replacers');
 
-function _getHexadecimal(hex) {
-  let tempHex = hex;
-
-  const noHash = hex.substring(1);
-  const [r1, r2, g1, g2, b1, b2] = noHash.split('');
-
-  if (r1 === r2 && g1 === g2 && b1 === b2) {
-    tempHex = `#${r1}${g1}${b1}`;
-  }
-
-  return tempHex;
-}
+const { getHexadecimal } = require('./helpers/utils');
 
 class Minifier {
   constructor() {
     this.cssContent = [];
   }
+
+  // -------------- PRIVATE FUNCTIONS --------------
+  _replaceWhiteSpaceMerge(content) {
+    let modifiedContent = content;
+
+    REGEX_WHITE_SPACE_FROM.forEach((regex, index) => {
+      // remove the possible white spaces
+      modifiedContent = modifiedContent.replace(
+        regex,
+        REGEX_WHITE_SPACE_TO[index]
+      );
+
+      // replace selector all `*`
+      if (hasAllSelector(modifiedContent)) {
+        modifiedContent = replaceAllSelector(modifiedContent);
+      }
+
+      // NOTE: we must be careful with the `+` symbol
+      // it's wild use in several ways so, we must applay
+      // a different regular expression to it
+      if (hasPlusSelector(modifiedContent)) {
+        modifiedContent = replacePlusSelector(modifiedContent);
+      }
+
+      // prevent dots next to parenthesis
+      modifiedContent = replaceDotSelector(modifiedContent);
+
+      // Check for media queries
+      if (hasMediaQuerySelector(modifiedContent)) {
+        modifiedContent = replaceMediaQuerySelector(modifiedContent);
+      }
+
+      // Check for Calc function
+      if (hasCalcFunction(modifiedContent)) {
+        modifiedContent = replaceCalcFunction(modifiedContent);
+      }
+
+      // Check for not(), lang(), child(), type()
+      if (hasOtherSelectors(modifiedContent)) {
+        modifiedContent = replaceParenthesisFromOtherSelectors(modifiedContent);
+      }
+    });
+
+    return modifiedContent;
+  }
+
+  // -------------- PUBLIC FUNCTIONS --------------
 
   setContent(cssContent) {
     this.cssContent = cssContent.map((content) => content.trim());
@@ -52,7 +104,7 @@ class Minifier {
       if (match && match[0].length > 4) {
         modifiedContent = modifiedContent.replace(
           match[0],
-          _getHexadecimal(match[0])
+          getHexadecimal(match[0])
         );
       }
 
@@ -67,12 +119,9 @@ class Minifier {
   cleanUnitsZeroValue() {
     // Avoid removing data from path into url attribute and animation keyframe
     this.cssContent = this.cssContent.map((content) =>
-      !/url/g.test(content) && !/\b0%{/g.test(content)
-        ? content.replace(
-            /\b0{1}(vh|vw|ch|pc|in|mm|cm|ex|px|em|pt|rm|rem|%|deg)/g,
-            '0'
-          )
-        : content
+      hasNotPrefixZero(content)
+        ? content
+        : content.replace(REGEX_ZERO_PREFIX, '0')
     );
   }
 
@@ -84,9 +133,7 @@ class Minifier {
    */
   cleanZeroPrefixFloat() {
     this.cssContent = this.cssContent.map((content) =>
-      /0\.\d+(vh|vw|ch|pc|in|mm|cm|ex|px|em|pt|rm|rem|%|deg|s|ms)*/g.test(
-        content
-      )
+      REGEX_ZERO_FLOAT_PREFIX.test(content)
         ? content.replace(/0\./g, '.')
         : content
     );
@@ -100,113 +147,16 @@ class Minifier {
    * outline
    */
   replaceNoneByZero() {
-    let modifiedContent;
-    this.cssContent = this.cssContent.map((content) => {
-      modifiedContent = content;
-      return /(outline|border|font-size-adjust):/g.test(modifiedContent)
-        ? modifiedContent.replace(/none/g, '0')
-        : modifiedContent;
-    });
+    this.cssContent = this.cssContent.map((content) =>
+      REGEX_BY_ZERO.test(content) ? content.replace(/none/g, '0') : content
+    );
   }
 
   /**
    * It will remove extra white spaces
    */
   cleanWhiteSpace() {
-    let modifiedContent;
-    const from = [
-      /\s*{\s*/g,
-      /\s*}\s*/g,
-      /\s*,\s*/g,
-      /;\s+/g,
-      /:\s+/g,
-      /\s*>\s*/g,
-      /\s*~\s*/g,
-      /\s+!important/g,
-      /\s{2,}/g,
-      /\s*\+=\s*/g,
-      /\s*\$\s*/g,
-      /\s*\^\s*/g,
-      /(\s+"|"\s+)/g,
-      /(\s+\||\|\s+)/g,
-      /(\s+\)|\)\s+)/g,
-      /(\s+\(|\(\s+)/g,
-      /(\s+\*=|\*=\s+)/g,
-    ];
-    const to = [
-      '{',
-      '}',
-      ',',
-      ';',
-      ':',
-      '>',
-      '~',
-      '!important',
-      ' ',
-      '=',
-      '$',
-      '^',
-      '"',
-      '|',
-      ')',
-      '(',
-      '*=',
-    ];
-
-    // other selectors
-    const selectorsRegex = /:(not|lang|child|type)\(.+\)[^:]/;
-
-    const replaceWhiteSpaceMerge = (content) => {
-      modifiedContent = content;
-
-      from.forEach((regex, index) => {
-        // remove the possible white spaces
-        modifiedContent = modifiedContent.replace(regex, to[index]);
-
-        // replace selector all `*`
-        if (hasAllSelector(modifiedContent)) {
-          modifiedContent = replaceAllSelector(modifiedContent);
-        }
-
-        // NOTE: we must be careful with the `+` symbol
-        // it's wild use in several ways so, we must applay
-        // a different regular expression to it
-        if (hasPlusSelector(modifiedContent)) {
-          modifiedContent = replacePlusSelector(modifiedContent);
-        }
-
-        // prevent dots next to parenthesis
-        modifiedContent = replaceDotSelector(modifiedContent);
-
-        // Check for media queries
-        if (hasMediaQuerySelector(modifiedContent)) {
-          modifiedContent = modifiedContent
-            .replace(/\b[^:]\s*not\s*\(/g, ' not (')
-            .replace(/\s*and\s*\(/g, ' and (');
-        }
-
-        // Check for Calc function
-        if (/calc/g.test(modifiedContent)) {
-          modifiedContent = modifiedContent
-            .replace(/\s*\+\s*/g, ' + ')
-            .replace(/\s*-\s*/g, ' - ')
-            .replace(/\s*\/\s*/g, ' / ')
-            .replace(/\s*\*\s*/g, ' * ');
-        }
-
-        // Check for not(), lang(), child(), type()
-        if (
-          selectorsRegex.test(modifiedContent) &&
-          !/\),$/.test(modifiedContent)
-        ) {
-          modifiedContent = modifiedContent.replace(/\)\s*/, ') ');
-        }
-      });
-
-      return modifiedContent;
-    };
-
-    this.cssContent = this.cssContent.map(replaceWhiteSpaceMerge);
+    this.cssContent = this.cssContent.map(this._replaceWhiteSpaceMerge);
   }
 
   /**
@@ -214,20 +164,16 @@ class Minifier {
    */
   cleanQuotes() {
     let match = null;
-    let tempMatch = '';
-    let modifiedContent;
-
-    const urlRegex = /\burl\(("|')[\w-./=+:,?#\d]+("|')\)/g;
 
     this.cssContent = this.cssContent.map((content) => {
-      modifiedContent = content;
-      match = modifiedContent.match(urlRegex);
+      let modifiedContent = content;
+      match = modifiedContent.match(REGEX_URL);
 
       if (match) {
         const [matchedVal] = match;
-        tempMatch = matchedVal.replace(/("|')/g, '');
-        modifiedContent = modifiedContent.replace(matchedVal, tempMatch);
+        modifiedContent = replaceQuotes(matchedVal, modifiedContent);
       }
+
       return modifiedContent;
     });
   }
@@ -240,11 +186,12 @@ class Minifier {
    * * sets everything in on line
    */
   getMinifiedCSS() {
-    const { cssContent } = this;
+    const content = this.cssContent;
+
     return new Promise((resolve, rejected) => {
-      if (cssContent.length) {
+      if (content.length) {
         resolve(
-          cssContent
+          content
             .join('')
             .replace(/[;\s]+}/g, '}')
             .replace(/\/\*.*?\*\//g, '')

@@ -3,6 +3,18 @@
  * @copyright 2016 - 2020
  */
 
+const {
+  hasMediaQuerySelector,
+  hasAllSelector,
+  hasPlusSelector,
+} = require('./helpers/has');
+
+const {
+  replaceAllSelector,
+  replacePlusSelector,
+  replaceDotSelector,
+} = require('./helpers/replacers');
+
 function _getHexadecimal(hex) {
   let tempHex = hex;
 
@@ -22,7 +34,7 @@ class Minifier {
   }
 
   setContent(cssContent) {
-    this.cssContent = cssContent.map(content => content.trim());
+    this.cssContent = cssContent.map((content) => content.trim());
   }
 
   /**
@@ -33,12 +45,15 @@ class Minifier {
     let modifiedContent;
 
     // go though each line of the css file
-    this.cssContent = this.cssContent.map(content => {
+    this.cssContent = this.cssContent.map((content) => {
       modifiedContent = content;
-      match = modifiedContent.match(/#[a-f\d]{6}/ig);
+      match = modifiedContent.match(/#[a-f\d]{6}/gi);
 
       if (match && match[0].length > 4) {
-        modifiedContent = modifiedContent.replace(match[0], _getHexadecimal(match[0]));
+        modifiedContent = modifiedContent.replace(
+          match[0],
+          _getHexadecimal(match[0])
+        );
       }
 
       return modifiedContent;
@@ -51,9 +66,14 @@ class Minifier {
    */
   cleanUnitsZeroValue() {
     // Avoid removing data from path into url attribute and animation keyframe
-    this.cssContent = this.cssContent.map(content => !/url/g.test(content) && !/\b0%{/g.test(content)
-      ? content.replace(/\b0{1}(vh|vw|ch|pc|in|mm|cm|ex|px|em|pt|rm|rem|%|deg)/g, '0')
-      : content);
+    this.cssContent = this.cssContent.map((content) =>
+      !/url/g.test(content) && !/\b0%{/g.test(content)
+        ? content.replace(
+            /\b0{1}(vh|vw|ch|pc|in|mm|cm|ex|px|em|pt|rm|rem|%|deg)/g,
+            '0'
+          )
+        : content
+    );
   }
 
   /**
@@ -63,9 +83,13 @@ class Minifier {
    * TODO: remove from transforming and some animations too
    */
   cleanZeroPrefixFloat() {
-    this.cssContent = this.cssContent.map(content => /0\.\d+(vh|vw|ch|pc|in|mm|cm|ex|px|em|pt|rm|rem|%|deg|s|ms)*/g.test(content)
-      ? content.replace(/0\./g, '.')
-      : content);
+    this.cssContent = this.cssContent.map((content) =>
+      /0\.\d+(vh|vw|ch|pc|in|mm|cm|ex|px|em|pt|rm|rem|%|deg|s|ms)*/g.test(
+        content
+      )
+        ? content.replace(/0\./g, '.')
+        : content
+    );
   }
 
   /**
@@ -77,7 +101,7 @@ class Minifier {
    */
   replaceNoneByZero() {
     let modifiedContent;
-    this.cssContent = this.cssContent.map(content => {
+    this.cssContent = this.cssContent.map((content) => {
       modifiedContent = content;
       return /(outline|border|font-size-adjust):/g.test(modifiedContent)
         ? modifiedContent.replace(/none/g, '0')
@@ -110,13 +134,29 @@ class Minifier {
       /(\s+\*=|\*=\s+)/g,
     ];
     const to = [
-      '{', '}', ',', ';', ':', '>', '~', '!important', ' ', '=', '$', '^', '"', '|', ')', '(', '*='
+      '{',
+      '}',
+      ',',
+      ';',
+      ':',
+      '>',
+      '~',
+      '!important',
+      ' ',
+      '=',
+      '$',
+      '^',
+      '"',
+      '|',
+      ')',
+      '(',
+      '*=',
     ];
 
     // other selectors
     const selectorsRegex = /:(not|lang|child|type)\(.+\)[^:]/;
 
-    const replaceWhiteSpaceMerge = content => {
+    const replaceWhiteSpaceMerge = (content) => {
       modifiedContent = content;
 
       from.forEach((regex, index) => {
@@ -124,22 +164,22 @@ class Minifier {
         modifiedContent = modifiedContent.replace(regex, to[index]);
 
         // replace selector all `*`
-        if (/\*\s+[{#,]/.test(modifiedContent)) {
-          modifiedContent = modifiedContent.replace(/\*/g, '*');
+        if (hasAllSelector(modifiedContent)) {
+          modifiedContent = replaceAllSelector(modifiedContent);
         }
 
         // NOTE: we must be careful with the `+` symbol
         // it's wild use in several ways so, we must applay
         // a different regular expression to it
-        if (/(\w|[.#])+\s*\+\s*/g.test(modifiedContent)) {
-          modifiedContent = modifiedContent.replace(/\s*\+\s*/g, '+');
+        if (hasPlusSelector(modifiedContent)) {
+          modifiedContent = replacePlusSelector(modifiedContent);
         }
 
         // prevent dots next to parenthesis
-        modifiedContent = modifiedContent.replace(/\)\./g, ') .');
+        modifiedContent = replaceDotSelector(modifiedContent);
 
         // Check for media queries
-        if (/@media/.test(modifiedContent)) {
+        if (hasMediaQuerySelector(modifiedContent)) {
           modifiedContent = modifiedContent
             .replace(/\b[^:]\s*not\s*\(/g, ' not (')
             .replace(/\s*and\s*\(/g, ' and (');
@@ -155,7 +195,10 @@ class Minifier {
         }
 
         // Check for not(), lang(), child(), type()
-        if (selectorsRegex.test(modifiedContent) && !/\),$/.test(modifiedContent)) {
+        if (
+          selectorsRegex.test(modifiedContent) &&
+          !/\),$/.test(modifiedContent)
+        ) {
           modifiedContent = modifiedContent.replace(/\)\s*/, ') ');
         }
       });
@@ -176,7 +219,7 @@ class Minifier {
 
     const urlRegex = /\burl\(("|')[\w-./=+:,?#\d]+("|')\)/g;
 
-    this.cssContent = this.cssContent.map(content => {
+    this.cssContent = this.cssContent.map((content) => {
       modifiedContent = content;
       match = modifiedContent.match(urlRegex);
 
@@ -200,10 +243,12 @@ class Minifier {
     const { cssContent } = this;
     return new Promise((resolve, rejected) => {
       if (cssContent.length) {
-        resolve(cssContent
-          .join('')
-          .replace(/[;\s]+}/g, '}')
-          .replace(/\/\*.*?\*\//g, ''));
+        resolve(
+          cssContent
+            .join('')
+            .replace(/[;\s]+}/g, '}')
+            .replace(/\/\*.*?\*\//g, '')
+        );
       } else {
         rejected(new Error('Empty file to minify'));
       }

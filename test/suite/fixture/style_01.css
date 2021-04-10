@@ -1,0 +1,727 @@
+:root {
+  /* I'll just steal gruvbox (technically it isn't stealing since it's under MIT). I will make sure to give
+   * credit somewhere on the page */
+
+  --gruvbox-dark0:       #282828;
+  --gruvbox-dark1:       #3c3836;
+  --gruvbox-dark2:       #504945;
+
+  --gruvbox-light0:      #fbf1c7;
+  --gruvbox-light0_soft: #f2e5bc;
+  --gruvbox-light1:      #ebdbb2;
+  --gruvbox-light2:      #d5c4a1;
+  --gruvbox-light3:      #bdae93;
+
+  /* Rip gruvbox-bright-green.. Loved by everyone except contrast checker */
+  /* --gruvbox-bright_green: #b8bb26; */
+  --bright_green: #dbff1a;
+  --gruvbox-neutral_blue: #458588;
+
+  --background-color1:    var(--gruvbox-dark0);
+  --background-color2:    var(--gruvbox-dark1);
+  --background-color3:    var(--gruvbox-dark2);
+
+  --top-nav-color:        var(--bright_green);
+
+  /* I added this after the others and didn't feel like renaming everything */
+  --text-on-bg-color-1:   var(--gruvbox-light0);
+  --text-on-bg-color0:    var(--gruvbox-light0_soft);
+  --text-on-bg-color1:    var(--gruvbox-light1);
+  --text-on-bg-color2:    var(--gruvbox-light2);
+  --text-on-bg-color3:    var(--gruvbox-light3);
+
+  --image-border-color:    var(--gruvbox-light3);
+  --image-container-color: var(--gruvbox-light2);
+
+  --nav-menu-color: var(--gruvbox-neutral_blue);
+
+  --common-shadow-color: var(--gruvbox-dark2);
+}
+
+body {
+  margin: 0px;
+
+  background-color: var(--background-color1);
+}
+
+article.common-article {
+  color: var(--text-on-bg-color0);
+  font-family: sans-serif;
+}
+
+article.common-article h3 {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+article.common-article p {
+  padding: 0 2rem 0 2rem;
+  margin-top: 0.5rem;
+}
+
+section.common-section {
+  color: var(--text-on-bg-color0);
+  font-family: sans-serif;
+}
+
+section.common-section h3 {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.common-box-shadow {
+  box-shadow: 1px 2px 4px var(--common-shadow-color);
+}
+
+.stop-scroll {
+  overflow: hidden;
+}
+
+/* Navigation menu is used for hamburger menu on mobile and eventual desktop menus */
+.navigation-menu {
+  background-color: var(--nav-menu-color);
+}
+
+.navigation-menu section {
+  background-color: var(--background-color2);
+  color: var(--text-on-bg-color-1);
+
+  font-family: sans-serif;
+
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.navigation-menu section h2 {
+  padding-bottom: 3px;
+  border-bottom: 3px solid;
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+.navigation-menu section a {
+  display: block;
+
+  text-decoration: none;
+  color: var(--text-on-bg-color-1);
+  margin: 0.5rem 0 0.5rem 0;
+
+  padding: 8px;
+  border: 2px solid;
+  border-radius: 6px;
+}
+
+/* Mobile content common for all pages */
+@media screen and (max-width: 767px) {
+  /* Top header ------------------------ */
+  nav#top-nav-mobile {
+      position:fixed;
+
+      background-color: var(--top-nav-color);
+      width: 100%;
+      height: 10%;
+
+      display: grid;
+      grid-template-columns: 20% auto 20%;
+  }
+
+  nav#top-nav-mobile #hamburger-menu-button {
+      padding-left: 1rem;
+      padding-top: 0.8rem;
+  }
+
+  nav#top-nav-mobile a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      text-decoration: none;
+      color: black;
+      font-size: 2em;
+      font-weight: 600;
+  }
+
+  nav#top-nav-desktop {
+      display: none;
+  }
+
+  div.fade-layer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 5;
+      display: none;
+
+      background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  div.fade-layer.show {
+      display: block;
+  }
+
+  header.common-header {
+      text-align: center;
+      font-family: sans-serif;
+  }
+
+  header.common-header h1 {
+      padding: 0;
+      margin: 0;
+      margin-bottom: 5px;
+
+      font-size: 2rem;
+
+      color: var(--text-on-bg-color0);
+  }
+
+  header.common-header h2 {
+      padding: 0;
+      margin: 0;
+
+      font-size: 1.3rem;
+
+      color: var(--text-on-bg-color1);
+  }
+
+  img#hamburger-menu-button {
+
+  }
+
+  nav#mobile-hamburger-menu {
+      position: fixed;
+      left: -85%;
+      z-index: 10;
+      transition-property: left;
+      transition-duration: 0.6s;
+
+      height: 100vh;
+      width: 80vw;
+
+  }
+
+  /* Activated with javascript */
+  nav#mobile-hamburger-menu.show {
+      left: 0;
+      transition-property: left;
+      transition-duration: 0.6s;
+  }
+}
+
+/* Desktop content common to all pages */
+@media screen and (min-width: 1024px) {
+  nav#mobile-hamburger-menu {
+      display: none;
+  }
+
+  header.common-header {
+      font-family: sans-serif;
+      text-align: center;
+  }
+
+  header.common-header h1 {
+      padding: 0px;
+      margin: 0;
+      margin-top: 1rem;
+      margin-bottom: 5px;
+
+      font-size: 3rem;
+
+      color: var(--text-on-bg-color0);
+  }
+
+  header.common-header h2 {
+      padding: 0;
+      margin: 0;
+
+      font-size: 2rem;
+      color: var(--text-on-bg-color2);
+  }
+
+  .larger-text {
+      font-size: 200%;
+  }
+
+  /* För närvarande inte använd */
+  .rounded-corners {
+      border-radius: 6px;
+  }
+}
+
+/* First page ------------------------ */
+
+div#wrapper-front-first-page article {
+  grid-area: ar;
+}
+
+div#wrapper-front-first-page section {
+  grid-area: se;
+}
+
+div#wrapper-front-first-page section ul {
+  margin-top: 0.5rem;
+  list-style-type: none;
+}
+
+div#wrapper-front-first-page header {
+  grid-area: he;
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+  div#wrapper-front-first-page {
+      display: grid;
+      height: 100vh;
+
+      grid-template-areas:
+      '.  '
+      'he'
+      'ar'
+      'se'
+      '.  '
+      ;
+
+      grid-template-rows: 10% 15% 30% 30% 15%;
+
+      gap: 1em;
+  }
+
+  .rounded-corners {
+      border-radius: 6px;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1024px) {
+  nav#top-nav-desktop {
+      position:fixed;
+
+      background-color: var(--top-nav-color);
+
+      width: 100%;
+      height: 10%;
+
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+  }
+
+  nav#top-nav-desktop a,
+  nav#top-nav-desktop span {
+      text-decoration: none;
+      color: black;
+      font-size: 2em;
+  }
+
+  nav#top-nav-desktop .dropdown .dropdown-content {
+      margin-top: 0;
+
+      display: none;
+      position: absolute;
+      background-color: var(--top-nav-color);
+
+      list-style-type: none;
+      padding: 0;
+  }
+
+  nav#top-nav-desktop .dropdown .dropdown-content li {
+      padding: 1em;
+  }
+
+  nav#top-nav-desktop .dropdown .dropdown-content :hover {
+      background-color: lightgrey;
+  }
+
+  nav#top-nav-desktop .dropdown:hover .dropdown-content {
+      display: block;
+  }
+
+  nav#top-nav-mobile {
+      display: none;
+  }
+
+  div#wrapper-front-first-page {
+      display: grid;
+      height: 100vh;
+
+      grid-template-areas:
+      '.  .  .  .'
+      '.  he he .'
+      '.  ar se .'
+      '.  .  .  .'
+      ;
+
+      grid-template-rows: 10% 15% 65% auto;
+      grid-template-columns: 20% 30% 30% 20%;
+
+      gap: 1rem;
+  }
+}
+/* End first page -------------------- */
+
+/* Second page ----------------------- */
+
+div#wrapper-front-second-page header {
+  grid-area: he;
+}
+
+div#wrapper-front-second-page article {
+  grid-area: ar;
+}
+
+div#wrapper-front-second-page section {
+  grid-area: se;
+}
+
+div#wrapper-front-second-page section div#category-grid-wrapper span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  border: 2px solid;
+
+  padding: 1rem;
+  margin: 0.5rem;
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+  div#wrapper-front-second-page {
+      display: grid;
+      height: 100vh;
+
+      grid-template-areas:
+      '.  '
+      'he'
+      'ar'
+      'se'
+      '.  '
+      ;
+
+      grid-template-rows: 10% 15% 30% 30% 15%;
+
+      gap: 1em;
+  }
+
+  div#wrapper-front-second-page section div#category-grid-wrapper {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+
+      height: 85%;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1024px) {
+
+  div#wrapper-front-second-page {
+      display: grid;
+      height: 100vh;
+
+      grid-template-areas:
+      '.  .  .'
+      '.  he .'
+      '.  ar .'
+      '.  se .'
+      ;
+
+      grid-template-rows: 10% 15% 30% 35% 10%;
+      grid-template-columns: 20% 60% 20%;
+
+      gap: 1rem;
+  }
+
+  div#wrapper-front-second-page section div#category-grid-wrapper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 70%;
+
+      margin: 0.5rem;
+  }
+}
+/* End second page ------------------- */
+
+/* Third page ------------------------ */
+
+div#wrapper-front-third-page header {
+  grid-area: he;
+}
+
+div#wrapper-front-third-page article {
+  grid-area: ar;
+}
+
+div#wrapper-front-third-page section {
+  grid-area: se;
+}
+
+div#wrapper-front-third-page section img {
+  height: 99%;
+  border: 3px solid var(--image-border-color);
+}
+
+div#wrapper-front-third-page footer {
+  grid-area: fo;
+
+  background-color: var(--top-nav-color);
+  padding: 0 1rem 0 1rem;
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+  div#wrapper-front-third-page {
+      display: grid;
+      height: 100vh;
+
+      grid-template-areas:
+      '. '
+      'he'
+      'se'
+      'ar'
+      'fo'
+      ;
+
+      /* Auto här gör att jag kan använda gap utan overflow */
+      grid-template-rows: 10% 10% 25% 25% auto;
+      gap: 1rem;
+  }
+
+  div#wrapper-front-third-page section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      overflow-x: scroll;
+      overflow-y: hidden;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1024px) {
+  div#wrapper-front-third-page {
+      display: grid;
+      height: 100vh;
+      grid-template-areas:
+      '.  .  .  . '
+      '.  he he . '
+      '.  se ar . '
+      '.  .  .  . '
+      'fo fo fo fo'
+      ;
+
+      grid-template-rows: 10% 15% 40% 15% auto;
+      grid-template-columns: 20% 30% 30% 20%;
+
+      gap: 1rem;
+
+      overflow: hidden;
+  }
+
+  div#wrapper-front-third-page section {
+      display: grid;
+      height: 100%;
+      width: 100%;
+      grid-template-rows: repeat(2, 50%);
+      grid-template-columns: repeat(2, 50%); 
+  }
+
+  div#wrapper-front-third-page section img {
+      width: 100%;
+  }
+}
+/* End third page -------------------- */
+
+/* Art gallery ----------------------- */
+div#wrapper-art-gallery header {
+  grid-area: he;
+}
+
+section#wrapper-art-gallery-images section.art-container {
+  background-color: var(--text-on-bg-color2);
+  font-family: sans-serif;
+}
+
+section#wrapper-art-gallery-images section.art-container h2 {
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+section#wrapper-art-gallery-images section.art-container figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+div#wrapper-art-gallery section#wrapper-art-gallery-images {
+  grid-area: im;
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+  div#wrapper-art-gallery {
+      display: grid;
+
+      grid-template-areas:
+      '. '
+      'he'
+      'im'
+      ;
+
+      height: 100vh;
+      grid-template-rows: 10% 5% 85%;
+      gap: 1rem;
+
+      overflow: scroll;
+      margin-bottom: 1rem;
+  }
+
+  div#wrapper-art-gallery section#wrapper-art-gallery-images {
+      grid-area: im;
+
+      display: grid;
+      gap: 1rem;
+
+      grid-auto-rows: auto;
+      grid-auto-columns: auto;
+      padding: 1rem;
+  }
+
+  nav#desktop-image-navigation {
+      display: none;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1024px) {
+  div#wrapper-art-gallery {
+      display: grid;
+      grid-template-areas:
+      '.  .  .  .  . '
+      'na he he he . '
+      'na .  im im . '
+      ;
+
+      height: 100vh;
+      grid-template-rows: 10% 15% auto;
+      grid-template-columns: 20% 5% 35% 35% 5%;
+  }
+
+  div#wrapper-art-gallery section#wrapper-art-gallery-images {
+      display: grid;
+      gap: 1rem;
+
+      grid-auto-rows: auto;
+      grid-auto-columns: auto;
+
+      grid-template-columns: 50% 50%;
+
+      padding: 1rem;
+  }
+
+  div#wrapper-art-gallery nav#desktop-image-navigation {
+      grid-area: na;
+  }
+}
+
+/* End art gallery ------------------- */
+
+/* Start about ----------------------- */
+
+div#wrapper-about header {
+  grid-area: he;
+}
+
+div#wrapper-about p {
+  grid-area: p;
+
+  color: var(--text-on-bg-color0);
+  font-family: sans-serif;
+  padding: 0 1rem 0 1rem;
+}
+
+div#wrapper-about section.questions {
+  grid-area: qu;
+  color: var(--text-on-bg-color0);
+  font-family: sans-serif;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+div#wrapper-about section.questions h2 {
+  text-align: center;
+}
+
+div#wrapper-about section .collapsible {
+  cursor: pointer;
+}
+
+div#wrapper-about section .collapsible > :first-child::before {
+  content: "▶ ";
+}
+
+div#wrapper-about section .collapsible.opened > :first-child::before {
+  content: "▼ ";
+}
+
+div#wrapper-about section .collapsible :not(:first-child) {
+  display: none;
+}
+
+div#wrapper-about section .collapsible.opened :not(:first-child) {
+  display: block;
+  padding-left: 2rem;
+}
+
+div#wrapper-about section .collapsible.opened :not(:first-child) a {
+  color: inherit;
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+  div#wrapper-about {
+      display: grid;
+
+      grid-template-areas: 
+      '. '
+      'he'
+      'p '
+      'qu'
+      ;
+
+      height: 100vh;
+      grid-template-rows: 10% 5% 20% auto;
+      gap: 1rem;
+
+      overflow: scroll;
+      margin-bottom: 1rem;
+  }
+
+  div#wrapper-about nav#desktop-question-navigation {
+      display: none;
+  }
+
+}
+
+/* Desktop */
+@media screen and (min-width: 1024px) {
+  div#wrapper-about {
+      display: grid;
+      grid-template-areas:
+      '.  . .  . '
+      'na . he . '
+      'na . p  . '
+      'na . qu . '
+      ;
+
+      height: 100vh;
+      grid-template-rows: 10% 15% 20% auto;
+      grid-template-columns: 20% 5% auto 5%;
+  }
+
+  div#wrapper-about nav#desktop-question-navigation {
+      grid-area: na;
+  }
+}

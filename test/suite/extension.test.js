@@ -9,7 +9,7 @@ const {
   Uri
 } = require('vscode');
 
-describe('Extension Tests', () => {
+xdescribe('Extension Tests', () => {
   it('Execute the command extension', done => {
     commands.executeCommand('extension.minify')
       .then(() => {

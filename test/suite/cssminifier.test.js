@@ -10,7 +10,7 @@ const {
 } = require('vscode');
 
 
-describe('cssMinifier functions', () => {
+xdescribe('cssMinifier functions', () => {
   const LANGUAGE = 'css';
   let workingOnSpace;
 

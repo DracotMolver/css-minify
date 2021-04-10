@@ -94,11 +94,10 @@ class Minifier {
    */
   replaceFullHexadecimalByShorten() {
     let match;
-    let modifiedContent;
 
     // go though each line of the css file
     this.cssContent = this.cssContent.map((content) => {
-      modifiedContent = content;
+      let modifiedContent = content;
       match = modifiedContent.match(/#[a-f\d]{6}/gi);
 
       if (match && match[0].length > 4) {

@@ -10,7 +10,7 @@ function hasAllSelector(content) {
 }
 
 function hasPlusSelector(content) {
-  return /(\w|[.#])+\s*\+\s*/g.test(content);
+  return /[\w.#]+\s*\+\s*.+[,{]/g.test(content);
 }
 
 function hasMediaQuerySelector(content) {

@@ -40,14 +40,9 @@ class Minifier {
 
   // -------------- PRIVATE FUNCTIONS --------------
   _replaceWhiteSpaceMerge(content) {
-    let modifiedContent = content;
-
-    REGEX_WHITE_SPACE_FROM.forEach((regex, index) => {
+    return REGEX_WHITE_SPACE_FROM.map((regex, index) => {
       // remove the possible white spaces
-      modifiedContent = modifiedContent.replace(
-        regex,
-        REGEX_WHITE_SPACE_TO[index]
-      );
+      let modifiedContent = content.replace(regex, REGEX_WHITE_SPACE_TO[index]);
 
       // replace selector all `*`
       if (hasAllSelector(modifiedContent)) {
@@ -78,9 +73,9 @@ class Minifier {
       if (hasOtherSelectors(modifiedContent)) {
         modifiedContent = replaceParenthesisFromOtherSelectors(modifiedContent);
       }
-    });
 
-    return modifiedContent;
+      return modifiedContent;
+    });
   }
 
   // -------------- PUBLIC FUNCTIONS --------------
@@ -93,17 +88,16 @@ class Minifier {
    * It will replace all the full hexadecimal values by it shorten form
    */
   replaceFullHexadecimalByShorten() {
-    let match;
-
     // go though each line of the css file
     this.cssContent = this.cssContent.map((content) => {
       let modifiedContent = content;
-      match = modifiedContent.match(/#[a-f\d]{6}/gi);
+      const match = modifiedContent.match(/#[a-f\d]{6}/gi);
 
       if (match && match[0].length > 4) {
+        const _match = match[0];
         modifiedContent = modifiedContent.replace(
-          match[0],
-          getHexadecimal(match[0])
+          _match,
+          getHexadecimal(_match)
         );
       }
 

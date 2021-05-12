@@ -167,6 +167,10 @@ const Mock = {
             width: calc(20px * (100% / 3) / 20px);
             font-size: 2px   !important;
             padding: 2px 2px    2px;
+            content: "";
+            content: "     ";
+            content: "a";
+            content: "a   ";
             }
             #aptApp * {
                 box-sizing: content-box;
@@ -248,6 +252,10 @@ const Mock = {
             width:calc(20px * (100% / 3) / 20px);
             font-size:2px!important;
             padding:2px 2px 2px;
+            content: "";
+            content: "";
+            content: "a";
+            content: "a   ";
             }
             #aptApp *{
                 box-sizing:content-box;

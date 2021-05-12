@@ -116,12 +116,22 @@ describe('has functions', () => {
     const css_01 = `
       body:not(.logged-in)     .greeting{}
       :not(p),
+      p:lang(it)
+       {
+        margin: 25px;
+      }
     `;
 
     expect(hasOtherSelectors(css_01)).to.be.true;
 
     const css_02 = `
-      .my-form[disabled=true] .my-input {
+      .my-form[disabled=true] .my-input,
+      p:last-child,
+      p:first-child,
+      p:nth-child(2),
+      p:only-child,
+      p:nth-last-child(2),
+      [lang|=en] {
         cursor: not-allowed;
       }
       @media not all and (monochrome) {}

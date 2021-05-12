@@ -180,6 +180,10 @@ a:visited {
     border: none;
     text-decoration: none;
     clip-path: unset;
+    content: "";
+    content: "   ";
+    content: "a";
+    content: "a   ";
 }
 
 @font-face {

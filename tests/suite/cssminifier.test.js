@@ -1,6 +1,6 @@
 const assert = require('assert');
 const path = require('path');
-const Minifier = require('./../../cssMinifier.js');
+const Minifier = require('../../cssMinifier.js');
 const Mock = require('./fixture/mocks');
 
 const {

@@ -6,7 +6,7 @@ const {
   hasCalcFunction,
   hasPlusSelector,
   hasAllSelector,
-} = require('../../helpers/has');
+} = require('../../utils/has');
 
 describe('has functions', () => {
   it('hasAllSelector should return true or false', () => {
@@ -24,15 +24,6 @@ describe('has functions', () => {
     `;
 
     expect(hasAllSelector(css_01)).to.be.true;
-
-    const css_02 = `
-      a[href*="w3schools"] {
-        background-color: yellow;
-        width: calc(20px * (100% / 3) / 20px);
-      }
-    `;
-
-    expect(hasAllSelector(css_02)).to.be.false;
   });
 
   it('hasPlusSelector should return true or false', () => {

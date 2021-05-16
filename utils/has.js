@@ -6,7 +6,7 @@
 const { REGEX_OTHER_SELECTOR } = require('./regex');
 
 function hasAllSelector(content) {
-  return /\*\s+[{#,]/.test(content);
+  return /\*/g.test(content);
 }
 
 function hasPlusSelector(content) {
@@ -22,7 +22,7 @@ function hasCalcFunction(content) {
 }
 
 function hasOtherSelectors(content) {
-  return REGEX_OTHER_SELECTOR.test(content) && !/\),$/.test(content);
+  return REGEX_OTHER_SELECTOR.test(content) && !/\),$/g.test(content);
 }
 
 function hasNotPrefixZero(content) {

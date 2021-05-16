@@ -10,7 +10,7 @@ const {
   REGEX_ZERO_PREFIX,
   REGEX_BY_ZERO,
   REGEX_URL,
-} = require('./helpers/regex');
+} = require('./utils/regex');
 
 const {
   hasMediaQuerySelector,
@@ -18,8 +18,7 @@ const {
   hasNotPrefixZero,
   hasPlusSelector,
   hasCalcFunction,
-  hasAllSelector,
-} = require('./helpers/has');
+} = require('./utils/has');
 
 const {
   replaceParenthesisFromOtherSelectors,
@@ -29,9 +28,9 @@ const {
   replaceAllSelector,
   replaceDotSelector,
   replaceQuotes,
-} = require('./helpers/replacers');
+} = require('./utils/replacers');
 
-const { getHexadecimal } = require('./helpers/utils');
+const { getHexadecimal } = require('./utils/utils');
 
 class Minifier {
   constructor() {
@@ -45,9 +44,7 @@ class Minifier {
       let modifiedContent = content.replace(regex, REGEX_WHITE_SPACE_TO[index]);
 
       // replace selector all `*`
-      if (hasAllSelector(modifiedContent)) {
-        modifiedContent = replaceAllSelector(modifiedContent);
-      }
+      modifiedContent = replaceAllSelector(modifiedContent);
 
       // NOTE: we must be careful with the `+` symbol
       // it's wild use in several ways so, we must applay
@@ -97,7 +94,7 @@ class Minifier {
         const _match = match[0];
         modifiedContent = modifiedContent.replace(
           _match,
-          getHexadecimal(_match)
+          getHexadecimal(_match),
         );
       }
 
@@ -114,7 +111,7 @@ class Minifier {
     this.cssContent = this.cssContent.map((content) =>
       hasNotPrefixZero(content)
         ? content
-        : content.replace(REGEX_ZERO_PREFIX, '0')
+        : content.replace(REGEX_ZERO_PREFIX, '0'),
     );
   }
 
@@ -128,7 +125,7 @@ class Minifier {
     this.cssContent = this.cssContent.map((content) =>
       REGEX_ZERO_FLOAT_PREFIX.test(content)
         ? content.replace(/0\./g, '.')
-        : content
+        : content,
     );
   }
 
@@ -141,7 +138,7 @@ class Minifier {
    */
   replaceNoneByZero() {
     this.cssContent = this.cssContent.map((content) =>
-      REGEX_BY_ZERO.test(content) ? content.replace(/none/g, '0') : content
+      REGEX_BY_ZERO.test(content) ? content.replace(/none/g, '0') : content,
     );
   }
 
@@ -187,7 +184,7 @@ class Minifier {
           content
             .join('')
             .replace(/[;\s]+}/g, '}')
-            .replace(/\/\*.*?\*\//g, '')
+            .replace(/\/\*.*?\*\//g, ''),
         );
       } else {
         rejected(new Error('Empty file to minify'));

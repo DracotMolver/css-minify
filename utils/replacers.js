@@ -2,9 +2,22 @@
  * @author Diego Alberto Molina Vera
  * @copyright 2016 - 2021
  */
+const { hasAllSelector } = require('./has');
 
 function replaceAllSelector(content) {
-  return content.replace(/\*/g, '*');
+  let _content = content;
+
+  if (hasAllSelector(content)) {
+    _content = content.replace(/\s*\*\s*/g, ' * ');
+
+    if (/\*\s+[{,]/g.test(_content)) {
+      _content = _content.replace(/\*\s+/g, '*');
+    } else if (/\s*\*\s+=/g.test(_content)) {
+      _content = _content.replace(/\s*\*\s+=/g, '*=');
+    }
+  }
+
+  return _content;
 }
 
 function replacePlusSelector(content) {

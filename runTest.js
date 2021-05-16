@@ -5,14 +5,13 @@ async function main() {
   try {
     // The folder containing the Extension Manifest package.json
     // Passed to `--extensionDevelopmentPath`
-    const extensionDevelopmentPath = path.resolve(__dirname, '../');
+    const extensionDevelopmentPath = path.resolve(__dirname, '.');
 
-    const testWorkspace = path.resolve(__dirname, './suite/fixture');
+    const testWorkspace = path.resolve(__dirname, './tests/suite/fixture');
 
     // The path to the extension test script
     // Passed to --extensionTestsPath
-    const extensionTestsPath = path.resolve(__dirname, './suite/index');
-
+    const extensionTestsPath = path.resolve(__dirname, './tests/index.js');
     // Version
     const version = '1.42.0';
 
@@ -27,8 +26,8 @@ async function main() {
       launchArgs: [
         testWorkspace,
         // This disables all extensions except the one being testing
-        '--disable-extensions'
-      ]
+        '--disable-extensions',
+      ],
     });
   } catch (err) {
     console.error('Failed to run tests');

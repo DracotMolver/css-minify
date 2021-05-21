@@ -2,7 +2,7 @@
  * @author Diego Alberto Molina Vera
  * @copyright 2016 - 2021
  */
-const { hasAllSelector } = require('./has');
+const { hasAllSelector, hasPlusSelector } = require('./has');
 
 function replaceAllSelector(content) {
   let _content = content;
@@ -21,7 +21,13 @@ function replaceAllSelector(content) {
 }
 
 function replacePlusSelector(content) {
-  return content.replace(/\s*\+\s*/g, '+');
+  let _content = content;
+
+  if (hasPlusSelector(content)) {
+    _content = content.replace(/\s*\+\s*/g, '+');
+  }
+
+  return _content;
 }
 
 function replaceDotSelector(content) {

@@ -16,7 +16,6 @@ const {
   hasMediaQuerySelector,
   hasOtherSelectors,
   hasNotPrefixZero,
-  hasPlusSelector,
   hasCalcFunction,
 } = require('./utils/has');
 
@@ -39,40 +38,37 @@ class Minifier {
 
   // -------------- PRIVATE FUNCTIONS --------------
   _replaceWhiteSpaceMerge(content) {
-    return REGEX_WHITE_SPACE_FROM.map((regex, index) => {
-      // remove the possible white spaces
-      let modifiedContent = content.replace(regex, REGEX_WHITE_SPACE_TO[index]);
+    // return REGEX_WHITE_SPACE_FROM.map((regex, index) => {
+    //   // remove the possible white spaces
+    //   let modifiedContent = content.replace(regex, REGEX_WHITE_SPACE_TO[index]);
 
-      // replace selector all `*`
-      modifiedContent = replaceAllSelector(modifiedContent);
+    //   // replace selector all `*`
+    //   modifiedContent = replaceAllSelector(modifiedContent);
 
-      // NOTE: we must be careful with the `+` symbol
-      // it's wild use in several ways so, we must applay
-      // a different regular expression to it
-      if (hasPlusSelector(modifiedContent)) {
-        modifiedContent = replacePlusSelector(modifiedContent);
-      }
+    //   // NOTE: we must be careful with the `+` symbol
+    //   // it's wild use in several ways.
+    //   modifiedContent = replacePlusSelector(modifiedContent);
 
-      // prevent dots next to parenthesis
-      modifiedContent = replaceDotSelector(modifiedContent);
+    //   // prevent dots next to parenthesis
+    //   modifiedContent = replaceDotSelector(modifiedContent);
 
-      // Check for media queries
-      if (hasMediaQuerySelector(modifiedContent)) {
-        modifiedContent = replaceMediaQuerySelector(modifiedContent);
-      }
+    //   // Check for media queries
+    //   if (hasMediaQuerySelector(modifiedContent)) {
+    //     modifiedContent = replaceMediaQuerySelector(modifiedContent);
+    //   }
 
-      // Check for Calc function
-      if (hasCalcFunction(modifiedContent)) {
-        modifiedContent = replaceCalcFunction(modifiedContent);
-      }
+    //   // Check for Calc function
+    //   if (hasCalcFunction(modifiedContent)) {
+    //     modifiedContent = replaceCalcFunction(modifiedContent);
+    //   }
 
-      // Check for not(), lang(), child(), type()
-      if (hasOtherSelectors(modifiedContent)) {
-        modifiedContent = replaceParenthesisFromOtherSelectors(modifiedContent);
-      }
+    //   // Check for not(), lang(), child(), type()
+    //   if (hasOtherSelectors(modifiedContent)) {
+    //     modifiedContent = replaceParenthesisFromOtherSelectors(modifiedContent);
+    //   }
 
-      return modifiedContent;
-    });
+    //   return modifiedContent;
+    // });
   }
 
   // -------------- PUBLIC FUNCTIONS --------------

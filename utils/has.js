@@ -5,6 +5,14 @@
 
 const { REGEX_OTHER_SELECTOR } = require('./regex');
 
+function hasSpaceMextToOpenedBrace(content) {
+  return /.+\s+\{/g.test(content);
+}
+
+function hasSpaceNextToClosedBrace(content) {
+  return /\s+\}/g.test(content);
+}
+
 function hasAllSelector(content) {
   return /\*/g.test(content);
 }
@@ -30,6 +38,8 @@ function hasNotPrefixZero(content) {
 }
 
 module.exports = {
+  hasSpaceMextToOpenedBrace,
+  hasSpaceNextToClosedBrace,
   hasMediaQuerySelector,
   hasOtherSelectors,
   hasNotPrefixZero,

@@ -12,16 +12,12 @@ const {
   REGEX_URL,
 } = require('./utils/regex');
 
-const {
-  hasMediaQuerySelector,
-  hasOtherSelectors,
-  hasNotPrefixZero,
-  hasCalcFunction,
-} = require('./utils/has');
+const { hasNotPrefixZero } = require('./utils/has');
 
 const {
   replaceParenthesisFromOtherSelectors,
   replaceMediaQuerySelector,
+  replaceGeneralSpace,
   replacePlusSelector,
   replaceCalcFunction,
   replaceAllSelector,
@@ -37,17 +33,20 @@ class Minifier {
   }
 
   // -------------- PRIVATE FUNCTIONS --------------
-  _replaceWhiteSpaceMerge(content) {
+  _replaceSpaceMerge(content) {
+    let modifiedContent = content;
     // return REGEX_WHITE_SPACE_FROM.map((regex, index) => {
     //   // remove the possible white spaces
     //   let modifiedContent = content.replace(regex, REGEX_WHITE_SPACE_TO[index]);
+    
+    modifiedContent = replaceGeneralSpace(modifiedContent);
 
-    //   // replace selector all `*`
-    //   modifiedContent = replaceAllSelector(modifiedContent);
+    // replace selector all `*`
+    modifiedContent = replaceAllSelector(modifiedContent);
 
-    //   // NOTE: we must be careful with the `+` symbol
-    //   // it's wild use in several ways.
-    //   modifiedContent = replacePlusSelector(modifiedContent);
+    // NOTE: we must be careful with the `+` symbol
+    // it's wild use in several ways.
+    modifiedContent = replacePlusSelector(modifiedContent);
 
     //   // prevent dots next to parenthesis
     //   modifiedContent = replaceDotSelector(modifiedContent);
@@ -67,7 +66,7 @@ class Minifier {
     //     modifiedContent = replaceParenthesisFromOtherSelectors(modifiedContent);
     //   }
 
-    //   return modifiedContent;
+    return modifiedContent;
     // });
   }
 
@@ -141,8 +140,8 @@ class Minifier {
   /**
    * It will remove extra white spaces
    */
-  cleanWhiteSpace() {
-    this.cssContent = this.cssContent.map(this._replaceWhiteSpaceMerge);
+  cleanSpace() {
+    this.cssContent = this.cssContent.map(this._replaceSpaceMerge);
   }
 
   /**

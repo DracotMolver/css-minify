@@ -28,7 +28,7 @@ function activate(context) {
       // removes the exadecimal
       minifier.replaceFullHexadecimalByShorten();
       // removes the white spaces
-      minifier.cleanWhiteSpace();
+      minifier.cleanSpace();
       // removes the zero values with units
       minifier.cleanUnitsZeroValue();
       // removes the zero prefix from float values

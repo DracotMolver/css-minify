@@ -14,8 +14,6 @@ const REGEX_ZERO_FLOAT_PREFIX = /0\.\d+(vh|vw|ch|pc|in|mm|cm|ex|px|em|pt|rm|rem|
 const REGEX_ZERO_PREFIX = /\b0{1}(vh|vw|ch|pc|in|mm|cm|ex|px|em|pt|rm|rem|%|deg)/g;
 
 const REGEX_WHITE_SPACE_FROM = [
-  /\s*{\s*/g,
-  /\s*}\s*/g,
   /\s*,\s*/g,
   /;\s+/g,
   /:\s+/g,
@@ -34,8 +32,6 @@ const REGEX_WHITE_SPACE_FROM = [
 ];
 
 const REGEX_WHITE_SPACE_TO = [
-  '{',
-  '}',
   ',',
   ';',
   ':',

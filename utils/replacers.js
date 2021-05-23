@@ -2,7 +2,12 @@
  * @author Diego Alberto Molina Vera
  * @copyright 2016 - 2021
  */
-const { hasAllSelector, hasPlusSelector } = require('./has');
+const {
+  hasSpaceNextToClosedBrace,
+  hasSpaceMextToOpenedBrace,
+  hasPlusSelector,
+  hasAllSelector,
+} = require('./has');
 
 function replaceAllSelector(content) {
   let _content = content;
@@ -30,10 +35,6 @@ function replacePlusSelector(content) {
   return _content;
 }
 
-function replaceDotSelector(content) {
-  return content.replace(/\)\./g, ') .');
-}
-
 function replaceMediaQuerySelector(content) {
   return content
     .replace(/\b[^:]\s*not\s*\(/g, ' not (')
@@ -57,12 +58,26 @@ function replaceQuotes(content, replacer) {
   return content.replace(replacer, tempMatch);
 }
 
+function replaceGeneralSpace(content) {
+  let _content = content;
+
+  if (hasSpaceMextToOpenedBrace(content)) {
+    _content = content.replace(/\s+\{/g, '{');
+  }
+
+  if (hasSpaceNextToClosedBrace(content)) {
+    _content = content.replace(/\s+\}/g, '{');
+  }
+
+  return _content;
+}
+
 module.exports = {
   replaceParenthesisFromOtherSelectors,
   replaceMediaQuerySelector,
+  replaceGeneralSpace,
   replaceCalcFunction,
   replacePlusSelector,
-  replaceDotSelector,
   replaceAllSelector,
   replaceQuotes,
 };
